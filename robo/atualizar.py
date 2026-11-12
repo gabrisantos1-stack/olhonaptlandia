@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Robô do Raio-X de Hortolândia.
+"""Robô do Radar PTlândia (Raio-X de Hortolândia-SP).
 
 Coleta os dados públicos do sistema legislativo da Câmara Municipal de Hortolândia
 (SAPL) e gera site/dados.js. Se a coleta vier incompleta ou estranha, o robô para
@@ -17,7 +17,7 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHE = os.path.join(RAIZ, "cache")
 SAIDA = os.path.join(RAIZ, "site", "dados.js")
 RESUMO = os.path.join(RAIZ, "site", "resumo.json")
-UA = "Mozilla/5.0 (compatible; RaioXHortolandia/1.0; projeto civico; +https://github.com/gabrisantos1-stack/olhonaptlandia)"
+UA = "Mozilla/5.0 (compatible; RadarPTlandia/1.0; projeto civico; +https://radarptlandia.org)"
 BASE = "https://sapl.hortolandia.sp.leg.br"
 API = BASE + "/@@vereadores"
 AGORA = datetime.datetime.now(ZoneInfo("America/Sao_Paulo"))

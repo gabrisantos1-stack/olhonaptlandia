@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>De Olho na PTlândia</title>
+<title>Radar PTlândia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -37,7 +37,7 @@ svg{display:block}
 .tag{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--mute);background:var(--soft);border-radius:999px;padding:5px 12px}
 .tag i{width:7px;height:7px;border-radius:50%;background:var(--l)}
 h1{margin:18px 0 14px}
-h1 img{width:min(100%,440px);height:auto}
+h1 img{width:min(100%,640px);height:auto}
 .live{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--ink);background:var(--soft);border-radius:999px;padding:6px 12px}
 .live i{width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 0 0 rgba(255,49,49,.6);animation:pulse 1.8s infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(255,49,49,0)}100%{box-shadow:0 0 0 0 rgba(255,49,49,0)}}
@@ -215,7 +215,7 @@ footer p{margin:0 0 6px;max-width:70ch}
 <div class="wrap">
   <header class="top">
     <div class="live" id="live"><i></i><span id="livet">Ao vivo</span></div>
-    <h1><img src="logo.png" alt="De Olho na PTlândia" width="1000" height="370"></h1>
+    <h1><img src="logo.png" alt="Radar PTlândia" width="1400" height="125"></h1>
     <p class="lede"><b>Raio-X de Hortolândia-SP.</b> O que cada vereador fez desde a posse, contado todo dia.</p>
     <div class="meter">
       <span class="ml">Salário pago aos 19 vereadores desde a posse</span>
@@ -296,7 +296,7 @@ footer p{margin:0 0 6px;max-width:70ch}
   </section>
 
   <footer>
-    <p>De Olho na PTlândia é um projeto independente de Gabriel Damasceno, feito por morador, sem vínculo com a Câmara, com a Prefeitura ou com partido. “PTlândia” é um apelido popular de Hortolândia.</p>
+    <p>Radar PTlândia é um projeto independente de Gabriel Damasceno, feito por morador, sem vínculo com a Câmara, com a Prefeitura ou com partido. “PTlândia” é um apelido popular de Hortolândia.</p>
     <p id="rod"></p>
   </footer>
 </div>
@@ -461,7 +461,7 @@ const repHTML=g=>`<button class="rp" type="button" data-g="${D.rep.indexOf(g)}">
   <span class="rr">${esc(g.r)}</span><span class="rb">${esc(g.b||'Hortolândia')}</span>
   <span class="rm"><span class="lab">${esc(THX[g.th][1])}</span><span>${g.a} ${g.a===1?'vereador pediu':'vereadores pediram'}</span><span>·</span><span>de ${mesAno(g.d0)} a ${mesAno(g.d1)}</span></span><span class="go" style="grid-column:1/-1;color:var(--red);font-weight:700;font-size:14px;margin-top:6px">Ver pedidos e cobrar →</span></button>`;
 const TEMA={luz:'iluminação',asf:'conserto de asfalto',tra:'melhoria no trânsito',agu:'conserto de água e esgoto',lim:'limpeza e poda',cal:'conserto de calçada',laz:'melhoria em praça e área de lazer',sau:'melhoria na saúde',edu:'melhoria em escola',seg:'segurança',bus:'melhoria no ônibus'};
-const SITE=/^https?:/.test(location.protocol)&&!/claude/.test(location.hostname)?location.origin+location.pathname:'https://gabrisantos1-stack.github.io/olhonaptlandia/';
+const SITE=/^https?:/.test(location.protocol)&&!/claude/.test(location.hostname)?location.origin+location.pathname:'https://radarptlandia.org/';
 function openRep(g){
   openSheet('b',THX[g.th][2],g.r,`${THX[g.th][1]} · pedido ${g.n} vezes até agora${g.b?' · '+g.b:''}`);
   const cnt=new Map(); g.items.forEach(it=>it[6].forEach(a=>cnt.set(a,(cnt.get(a)||0)+1)));

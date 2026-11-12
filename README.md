@@ -1,4 +1,6 @@
-# Raio-X de Hortolândia
+# Radar PTlândia · Raio-X de Hortolândia-SP
+
+https://radarptlandia.org
 
 Site independente que mostra, com dados oficiais da Câmara Municipal de Hortolândia-SP,
 o que cada vereador fez desde 2025: presença, propostas e votos.
