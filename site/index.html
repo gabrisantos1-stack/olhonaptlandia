@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Raio-X de Hortolândia</title>
+<title>De Olho na PTlândia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
      Cartões arredondados com sombra leve; cada proposta vira um cartão com ícone do assunto. Sempre claro. */
   --paper:#ffffff; --ink:#0f1720; --mute:#5b6875; --hair:#e6eaee; --soft:#f5f7f9;
   --b:#1d5fe0; --b-t:#eaf1ff; --c:#d9580b; --c-t:#fff1e6; --h:#cf2573; --h-t:#ffeaf3; --l:#0a8a5f; --l-t:#e4f7ef; --o:#5b6875; --o-t:#eef1f4;
-  --ok:#0a8a5f; --warn:#c98a12; --bad:#d23a2e;
+  --red:#ff3131; --ok:#0a8a5f; --warn:#c98a12; --bad:#d23a2e;
   --shadow:0 1px 2px rgba(15,23,32,.05),0 8px 24px -12px rgba(15,23,32,.14);
   --display:"Bricolage Grotesque","Public Sans",system-ui,sans-serif;
   --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
@@ -36,12 +36,22 @@ svg{display:block}
 .top{padding:26px 0 6px}
 .tag{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--mute);background:var(--soft);border-radius:999px;padding:5px 12px}
 .tag i{width:7px;height:7px;border-radius:50%;background:var(--l)}
-h1{font-family:var(--display);font-weight:800;font-size:clamp(44px,11vw,84px);line-height:.95;letter-spacing:-.03em;margin:16px 0 14px;text-wrap:balance}
-h1 em{font-style:normal;background:linear-gradient(transparent 62%,#ffe27a 62%)}
+h1{margin:18px 0 14px}
+h1 img{width:min(100%,440px);height:auto}
+.live{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--ink);background:var(--soft);border-radius:999px;padding:6px 12px}
+.live i{width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 0 0 rgba(255,49,49,.6);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(255,49,49,0)}100%{box-shadow:0 0 0 0 rgba(255,49,49,0)}}
+.meter{background:var(--ink);color:#fff;border-radius:22px;padding:18px 20px 16px;margin:0 0 10px;max-width:720px}
+.meter .ml{display:block;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#ffb3b3}
+.meter .mv{display:block;font-family:var(--display);font-weight:800;font-size:clamp(34px,10.5vw,68px);line-height:1.05;letter-spacing:-.03em;margin:4px 0 6px;white-space:nowrap}
+.meter .ms{display:block;font-size:12.5px;color:#b9c3cc;line-height:1.35}
+.now{color:var(--mute);font-weight:400}
 .lede{font-size:clamp(18px,2.4vw,21px);max-width:36ch;margin:0 0 18px;text-wrap:balance}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:560px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:720px}
+@media (min-width:620px){.stats{grid-template-columns:repeat(4,1fr)}}
 .stat{background:var(--soft);border-radius:14px;padding:12px 12px 10px}
-.stat b{font-family:var(--display);font-weight:800;font-size:clamp(24px,6vw,34px);line-height:1;display:block;letter-spacing:-.02em}
+.stat b{font-family:var(--display);font-weight:800;font-size:clamp(30px,8vw,40px);line-height:1;display:block;letter-spacing:-.02em}
+.stat b.k{color:var(--k)}
 .stat span{font-size:12.5px;color:var(--mute);line-height:1.25;display:block;margin-top:4px}
 .upd{font-size:13px;color:var(--mute);margin:14px 0 0}
 
@@ -74,7 +84,17 @@ h2{font-family:var(--display);font-weight:800;font-size:clamp(30px,6vw,42px);lin
 .rank .br{grid-column:2/4;height:6px;background:var(--soft);border-radius:3px;overflow:hidden;margin-top:-4px}
 .rank .br i{display:block;height:100%;background:var(--b);border-radius:3px}
 .rank b{font-family:var(--display);font-weight:800;font-size:18px}
-.av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;flex:none}
+.av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;flex:none;object-fit:cover;background:var(--soft)}
+.tapb{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.reps{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.rp{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;text-align:left;border:1px solid var(--hair);background:var(--paper);border-radius:20px;padding:16px;box-shadow:var(--shadow);align-items:center}
+.rp:hover{border-color:var(--ink)}
+.rp .rn{grid-row:1/3;font-family:var(--display);font-weight:800;font-size:44px;line-height:.9;letter-spacing:-.03em;color:var(--red);text-align:center;min-width:64px}
+.rp .rn small{display:block;font-family:var(--body);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);margin-top:4px}
+.rp .rr{font-weight:700;font-size:16.5px;line-height:1.2}
+.rp .rb{font-size:13.5px;color:var(--mute)}
+.rp .rm{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px;color:var(--mute);margin-top:8px}
+.rp .rm .lab{background:var(--b-t);color:var(--b)}
 .themes{display:flex;flex-direction:column;gap:9px;margin:0;padding:0;list-style:none}
 .themes li{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;font-size:15px}
 .themes .ti{width:30px;height:30px;border-radius:9px;background:var(--b-t);color:var(--b);display:flex;align-items:center;justify-content:center}
@@ -120,8 +140,8 @@ h2{font-family:var(--display);font-weight:800;font-size:clamp(30px,6vw,42px);lin
 .badge{border:1px solid var(--hair);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;background:var(--paper);box-shadow:var(--shadow);min-width:0}
 .bh{background:var(--tint);padding:12px 18px 16px;position:relative}
 .slot{width:56px;height:10px;background:var(--paper);border-radius:999px;margin:0 auto 14px;box-shadow:inset 0 1px 2px rgba(0,0,0,.18)}
-.idr{display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:center}
-.pho{width:64px;height:64px;border-radius:50%;background:var(--paper);color:var(--deep);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.02em;box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--deep)}
+.idr{display:grid;grid-template-columns:84px 1fr;gap:16px;align-items:center}
+.pho{width:84px;height:84px;border-radius:50%;background:var(--paper);color:var(--deep);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:-.02em;box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--deep);object-fit:cover}
 .idr h3{font-family:var(--display);font-weight:800;font-size:26px;line-height:1;letter-spacing:-.02em;margin:0;overflow-wrap:anywhere;text-wrap:balance}
 .civil{font-size:12.5px;color:var(--ink);opacity:.7;margin:4px 0 0}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
@@ -178,15 +198,20 @@ h2{font-family:var(--display);font-weight:800;font-size:clamp(30px,6vw,42px);lin
 .how p{font-size:14.5px;color:var(--mute);margin:0}
 footer{padding:26px 0 50px;color:var(--mute);font-size:13.5px;margin-top:36px;border-top:1px solid var(--hair)}
 footer p{margin:0 0 6px;max-width:70ch}
-@media (prefers-reduced-motion:reduce){.cat{transition:none}}
+@media (prefers-reduced-motion:reduce){.cat{transition:none}.live i{animation:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <span class="tag"><i></i>Projeto independente, com dados oficiais da Câmara</span>
-    <h1>Raio-X de <em>Hortolândia</em></h1>
-    <p class="lede">Veja o que cada vereador fez desde que tomou posse, em 2025.</p>
+    <div class="live" id="live"><i></i><span id="livet">Ao vivo</span></div>
+    <h1><img src="logo.png" alt="De Olho na PTlândia" width="1000" height="370"></h1>
+    <p class="lede"><b>Raio-X de Hortolândia-SP.</b> O que cada vereador fez desde a posse, contado todo dia.</p>
+    <div class="meter">
+      <span class="ml">Salário pago aos 19 vereadores desde a posse</span>
+      <b class="mv num" id="tick">R$ 0</b>
+      <span class="ms">e subindo agora · estimativa: 19 salários de R$ 16.503 por mês desde 1º de janeiro de 2025</span>
+    </div>
     <div class="stats num" id="stats"></div>
     <p class="upd" id="upd"></p>
   </header>
@@ -194,14 +219,22 @@ footer p{margin:0 0 6px;max-width:70ch}
   <section aria-labelledby="h-b">
     <span class="eye">Comece por aqui</span>
     <h2 id="h-b">O que pediram pelo seu bairro?</h2>
-    <p class="sub">Digite o bairro ou a rua e veja quem pediu o quê.</p>
+    <p class="sub">Digite o bairro ou a rua. Sem nada digitado, você vê a cidade inteira.</p>
     <label class="search" for="bq">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-      <input id="bq" type="search" list="bl" placeholder="Ex.: Jardim Amanda" autocomplete="off" aria-label="Bairro ou rua">
+      <input id="bq" type="search" list="bl" placeholder="Digite seu bairro ou sua rua" autocomplete="off" aria-label="Bairro ou rua">
     </label>
     <datalist id="bl"></datalist>
     <ul class="chips" id="chips"></ul>
     <div id="bres" aria-live="polite"></div>
+  </section>
+
+  <section aria-labelledby="h-r">
+    <span class="eye">Só aqui</span>
+    <h2 id="h-r">O problema que não some</h2>
+    <p class="sub">Quando o mesmo pedido volta várias vezes para a mesma rua, é sinal de que o problema continua lá. O site da Câmara não mostra isso: nós cruzamos os pedidos um por um.</p>
+    <div class="reps" id="reps"></div>
+    <p class="mute" style="font-size:13.5px;margin:12px 0 0;max-width:62ch">Pedido repetido não prova que a Prefeitura ignorou: pode ser outro trecho da mesma rua. Abra o cartão e leia os pedidos.</p>
   </section>
 
   <section aria-labelledby="h-h">
@@ -253,7 +286,7 @@ footer p{margin:0 0 6px;max-width:70ch}
   </section>
 
   <footer>
-    <p>Raio-X de Hortolândia é um projeto independente de Gabriel Damasceno, sem vínculo com a Câmara, com a Prefeitura ou com partido.</p>
+    <p>De Olho na PTlândia é um projeto independente de Gabriel Damasceno, feito por morador, sem vínculo com a Câmara, com a Prefeitura ou com partido. “PTlândia” é um apelido popular de Hortolândia.</p>
     <p id="rod"></p>
   </footer>
 </div>
@@ -327,19 +360,20 @@ const THH=[
 const THX={}; [...TH,...THH].forEach(t=>THX[t[0]]=t);
 function clean(it){
   let t=it[2].trim();
-  if(it[4]==='b')t=t.replace(/^indica(?:\s+ao\s+(?:poder\s+)?executivo(?:\s+municipal)?)?[,:]?\s+(?:a\s+necessidade\s+de\s+|a\s+realizacao\s+de\s+|a\s+realização\s+de\s+|que\s+seja\s+(?:feit[oa]|realizad[oa])\s+)?/i,'');
+  if(it[4]==='b')t=t.replace(/^indica(?:\s+ao\s+(?:poder\s+)?executivo(?:\s+municipal)?(?:\s+e\s+aos?\s+[oó]rg[aã]os?\s+competentes)?)?[,:]?\s+(?:a\s+necessidade\s+de\s+|a\s+realizacao\s+de\s+|a\s+realização\s+de\s+|que\s+seja\s+(?:feit[oa]|realizad[oa])\s+)?/i,'');
   else if(it[1].startsWith('REQ'))t=t.replace(/^requer\s+informa(?:ção|ções|cao|coes)\s+(?:sobre|a\s+respeito\s+d[eoa]s?|acerca\s+d[eoa]s?|referentes?\s+[aà]s?|quanto\s+[aà]s?)\s+/i,'');
   t=t.replace(/^(?:a|o|as|os)\s+(?=\S)/i,m=>t.length>40?'':m);
   return t.charAt(0).toUpperCase()+t.slice(1);
 }
 IT.forEach(it=>{it.n=norm(it[2]); const c=it[4];
-  it.th=(c==='b'||c==='c')?((TH.find(t=>t[3].test(it.n))||[])[0]||''):c==='h'?THH.find(t=>t[3].test(it.n))[0]:'';
+  it.th=it[8]||'';
   it.tx=clean(it)});
 const hue=i=>(i*47+12)%360;
 const avStyle=i=>`background:hsl(${hue(i)} 80% 92%);color:hsl(${hue(i)} 55% 28%)`;
 const ini=s=>{const w=s.replace(/^(Professora|Dr\.?|Dra\.?)\s+/,'').split(/\s+/).filter(x=>!/^(da|de|do|dos|das)$/i.test(x));return (w[0][0]+(w.length>1?w[w.length-1][0]:'')).toUpperCase()};
 V.forEach((v,i)=>{v.in=ini(v.ap)});
-const av=i=>`<span class="av" style="${avStyle(i)}" aria-hidden="true">${V[i].in}</span>`;
+const av=i=>V[i].foto?`<img class="av" src="fotos/${V[i].id}.jpg" alt="" loading="lazy">`:`<span class="av" style="${avStyle(i)}" aria-hidden="true">${V[i].in}</span>`;
+const mesAno=s=>`${MES[+s.slice(4,6)-1]} ${s.slice(0,4)}`;
 
 /* ---------- cartão de proposta ---------- */
 function stt(r){if(!r)return'';const k=/^aprovad/i.test(r)&&!/vista/i.test(r)?'ok':/rejeit/i.test(r)?'no':'';return `<span class="stt ${k}">${esc(r)}</span>`}
@@ -374,7 +408,7 @@ $('sh-x').addEventListener('click',closeSheet); veil.addEventListener('click',cl
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&sheet.classList.contains('on'))closeSheet()});
 function openCat(c,vi){
   const all=IT.filter(it=>it[4]===c&&(vi==null||it[6].includes(vi)));
-  openSheet(c,CAT[c][2],CAT[c][0],`${nf(all.length)} ${vi==null?'de todos os vereadores':'de '+V[vi].ap} desde 2025`);
+  openSheet(c,CAT[c][2],CAT[c][0],`${nf(all.length)} ${vi==null?'de todos os vereadores':'de '+V[vi].ap} até agora`);
   const th=themeCount(all); let cur='';
   const draw=()=>{pager($('sh-b'),cur?all.filter(it=>it.th===cur):all,vi==null,20)};
   if(th.length>1){
@@ -386,51 +420,84 @@ function openCat(c,vi){
 }
 function openNaos(vi){
   const v=V[vi];
-  openSheet('o','sign',`Quando ${v.ap} não votou “sim”`,`${v.naos.length} votações desde 2025`);
+  openSheet('o','sign',`Quando ${v.ap} não votou “sim”`,`${v.naos.length} votações até agora`);
   $('sh-b').innerHTML='<ul class="items">'+v.naos.map(n=>`<li class="it k-o"><span class="ic">${svg(ICON.sign)}</span><div><p class="tx">${esc(n.e)}</p>
     <div class="mt"><span class="stt ${n.v==='nao'?'no':''}">${n.v==='nao'?'Votou não':'Absteve-se'}</span><span>${dt(n.d.replace(/-/g,''))}</span><span>·</span><span>${esc(n.t)}</span></div>
     <div class="ft"><span class="mute">Proposta de: ${esc(n.a)}</span><a class="ext" href="${esc(n.u)}">Abrir na Câmara ↗</a></div></div></li>`).join('')+'</ul>';
 }
 
-/* ---------- topo ---------- */
-$('stats').innerHTML=`<div class="stat"><b>${V.length}</b><span>vereadores</span></div><div class="stat"><b>${nf(IT.length)}</b><span>propostas lidas</span></div><div class="stat"><b>${D.sess.length}</b><span>sessões conferidas</span></div>`;
-$('upd').textContent=`Atualizado em ${dt(D.ger.replace(/-/g,''))}.`;
+/* ---------- topo vivo ---------- */
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function countUp(el,to){ if(reduce){el.textContent=nf(to);return} const t0=performance.now(),from=Math.round(to*.82);
+  const step=t=>{const p=Math.min(1,(t-t0)/900),e=1-Math.pow(1-p,3);el.textContent=nf(Math.round(from+(to-from)*e));if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)}
+const STATS=[['',IT.length,'propostas até agora'],['k-b',D.catot.b||0,'pedidos nos bairros até agora'],['k-h',D.catot.h||0,'homenagens até agora'],['k-l',D.catot.l||0,'propostas de lei até agora']];
+$('stats').innerHTML=STATS.map(([k,n,l],i)=>`<div class="stat ${k}"><b class="${k?'k':''}" id="st${i}">${nf(n)}</b><span>${l}</span></div>`).join('');
+STATS.forEach(([k,n],i)=>countUp($('st'+i),n));
+/* salário: 19 vereadores x valor mensal, proporcional ao tempo desde a posse */
+const POSSE=new Date(D.posse+'T00:00:00-03:00').getTime(), POR_MS=V.length*D.sal.v*12/(365.25*864e5);
+const brl=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+function tick(){ $('tick').textContent=brl.format((Date.now()-POSSE)*POR_MS) }
+tick(); if(!reduce)setInterval(tick,120);
+const GER=new Date(D.gerh);
+function ago(){ const m=Math.max(0,Math.round((Date.now()-GER.getTime())/6e4));
+  const q=m<2?'agora mesmo':m<60?`há ${m} minutos`:m<120?'há 1 hora':m<1440?`há ${Math.floor(m/60)} horas`:m<2880?'ontem':`há ${Math.floor(m/1440)} dias`;
+  $('livet').textContent=`Ao vivo · dados conferidos ${q}`;
+  $('upd').textContent=`Última conferência na Câmara: ${GER.toLocaleDateString('pt-BR',{day:'numeric',month:'long'})} às ${GER.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}. O robô volta lá todo dia de madrugada.`}
+ago(); setInterval(ago,6e4);
+
+/* ---------- pedidos repetidos ---------- */
+D.rep.forEach(g=>{g.items=g.ids.map(n=>IT[n])});
+const repHTML=g=>`<button class="rp" type="button" data-g="${D.rep.indexOf(g)}"><span class="rn num">${g.n}<small>vezes</small></span>
+  <span class="rr">${esc(g.r)}</span><span class="rb">${esc(g.b||'Hortolândia')}</span>
+  <span class="rm"><span class="lab">${esc(THX[g.th][1])}</span><span>${g.a} ${g.a===1?'vereador pediu':'vereadores pediram'}</span><span>·</span><span>de ${mesAno(g.d0)} a ${mesAno(g.d1)}</span></span></button>`;
+function openRep(g){
+  openSheet('b',THX[g.th][2],g.r,`${THX[g.th][1]} · pedido ${g.n} vezes até agora${g.b?' · '+g.b:''}`);
+  pager($('sh-b'),g.items,true,20);
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(b)openRep(D.rep[+b.dataset.g])});
+(function(){ let n=0; const host=$('reps'), btn=document.createElement('button'); btn.className='more'; btn.type='button'; btn.style.gridColumn='1/-1';
+  const add=()=>{host.insertAdjacentHTML('beforeend',D.rep.slice(n,n+9).map(repHTML).join(''));n+=9;host.appendChild(btn);
+    if(n>=D.rep.length)btn.remove();else btn.textContent=`Mostrar mais ruas (${D.rep.length-n} na fila)`};
+  btn.addEventListener('click',()=>{btn.remove();add()}); add(); })();
 
 /* ---------- bairro ---------- */
 $('bl').innerHTML=D.bairros.map(b=>`<option value="${esc(b)}"></option>`).join('');
 $('chips').innerHTML=D.bairros.slice(0,10).map(b=>`<li><button class="chip" type="button" data-b="${esc(b)}">${esc(b)}</button></li>`).join('');
 function bairro(q){
-  const host=$('bres'), k=norm(q.trim());
+  const host=$('bres'), k=norm(q.trim()), city=k.length===0;
   $('chips').querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',norm(x.dataset.b)===k));
-  if(k.length<3){host.innerHTML='<div class="panel"><p class="mute" style="margin:0">Digite pelo menos 3 letras ou toque em um bairro acima.</p></div>';return}
-  const items=IT.filter(it=>it.n.includes(k));
+  if(!city&&k.length<3){host.innerHTML='<div class="panel"><p class="mute" style="margin:0">Continue digitando: preciso de pelo menos 3 letras.</p></div>';return}
+  const items=city?IT:IT.filter(it=>it.n.includes(k));
   if(!items.length){host.innerHTML=`<div class="panel"><p class="mute" style="margin:0">Nada encontrado para “${esc(q)}”. Confira a grafia ou tente só uma parte do nome.</p></div>`;return}
   const cnt=new Map(); items.forEach(it=>it[6].forEach(a=>cnt.set(a,(cnt.get(a)||0)+1)));
-  const top=[...cnt.entries()].sort((a,b)=>b[1]-a[1]), mx=top[0][1], th=themeCount(items).slice(0,5);
+  const top=[...cnt.entries()].sort((a,b)=>b[1]-a[1]), mx=top[0][1], th=themeCount(city?items.filter(it=>it[4]==='b'||it[4]==='c'):items).slice(0,5);
+  const reps=city?[]:D.rep.filter(g=>g.items.some(it=>it.n.includes(k))).slice(0,3);
   host.innerHTML=`<div class="panel">
-   <div class="ph"><span class="big num">${nf(items.length)}</span><p>${items.length===1?'proposta cita':'propostas citam'} <b>${esc(q.trim())}</b> desde 2025</p></div>
+   <div class="ph"><span class="big num">${nf(items.length)}</span><p>${city?'propostas para <b>a cidade inteira</b> até agora':`${items.length===1?'proposta cita':'propostas citam'} <b>${esc(q.trim())}</b> até agora`}</p></div>
    <div class="two">
-     <div><h3>Quem mais pediu</h3><ol class="rank">${top.slice(0,5).map(([a,n])=>`<li>${av(a)}<span class="nm">${esc(V[a].ap)} <span class="mute" style="font-weight:400">· ${esc(V[a].part)}</span></span><b class="num">${nf(n)}</b><span class="br"><i style="width:${n/mx*100}%"></i></span></li>`).join('')}</ol>
-       ${top.length>5?`<p class="mute" style="font-size:13.5px;margin:10px 0 0">Mais ${top.length-5} vereadores também citaram.</p>`:''}</div>
+     <div><h3>${city?'Quem mais propôs':'Quem mais pediu'}</h3><ol class="rank">${top.slice(0,5).map(([a,n])=>`<li>${av(a)}<span class="nm">${esc(V[a].ap)} <span class="mute" style="font-weight:400">· ${esc(V[a].part)}</span></span><b class="num">${nf(n)}</b><span class="br"><i style="width:${n/mx*100}%"></i></span></li>`).join('')}</ol>
+       ${top.length>5?`<p class="mute" style="font-size:13.5px;margin:10px 0 0">${city?`Os outros ${top.length-5} estão nos crachás, mais abaixo.`:`Mais ${top.length-5} vereadores também citaram.`}</p>`:''}</div>
      ${th.length?`<div><h3>O que mais pedem</h3><ul class="themes">${th.map(([t,n])=>`<li><span class="ti">${svg(ICON[THX[t][2]],18)}</span><span>${esc(THX[t][1])}</span><b class="num">${nf(n)}</b></li>`).join('')}</ul></div>`:''}
+     ${city?`<div><h3>Bairros mais citados</h3><ul class="themes">${D.bairros.slice(0,5).map((b,i)=>`<li><span class="ti">${svg(ICON.pin,18)}</span><button class="lnk" type="button" data-b="${esc(b)}">${esc(b)}</button><b class="num">${nf(D.bairrosn[i])}</b></li>`).join('')}</ul></div>`:''}
    </div>
-   <p class="h3" style="margin-top:24px">Os pedidos mais recentes</p><div id="blist"></div></div>`;
+   ${reps.length?`<p class="h3" style="margin-top:24px">Problemas que voltam aqui</p><div class="reps">${reps.map(repHTML).join('')}</div>`:''}
+   <p class="h3" style="margin-top:24px">${city?'As propostas mais recentes da cidade':'Os pedidos mais recentes'}</p><div id="blist"></div></div>`;
   pager($('blist'),items,true,4);
 }
 $('bq').addEventListener('input',e=>bairro(e.target.value));
-$('chips').addEventListener('click',e=>{const b=e.target.closest('[data-b]');if(b){$('bq').value=b.dataset.b;bairro(b.dataset.b)}});
-$('bq').value=D.bairros[0]; bairro(D.bairros[0]);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-b]');if(b){$('bq').value=b.dataset.b;bairro(b.dataset.b);$('bq').scrollIntoView({block:'start',behavior:reduce?'auto':'smooth'})}});
+bairro('');
 
 /* ---------- homenagem ou trabalho ---------- */
 const tot=ORDER.reduce((s,c)=>s+(D.catot[c]||0),0);
-$('hsub').textContent=`Foram ${nf(tot)} propostas desde 2025. Toque em um grupo para ler cada uma.`;
+$('hsub').textContent=`São ${nf(tot)} propostas até agora, e a conta sobe toda semana. Toque em um grupo para ler cada uma.`;
 $('split').innerHTML=ORDER.map(c=>`<i class="k-${c}" style="flex:${D.catot[c]||0} 1 0"></i>`).join('');
-$('cats').innerHTML=ORDER.map(c=>`<button class="cat k-${c}" type="button" data-c="${c}"><span class="ci">${svg(ICON[CAT[c][2]],26)}</span><span class="cv num">${nf(D.catot[c]||0)}</span><span class="cn">${CAT[c][0]}</span><span class="cd">${CAT[c][1]}</span><span class="go">Ver todas →</span></button>`).join('');
+$('cats').innerHTML=ORDER.map(c=>`<button class="cat k-${c}" type="button" data-c="${c}"><span class="ci">${svg(ICON[CAT[c][2]],26)}</span><span class="cv num">${nf(D.catot[c]||0)}</span><span class="cn">${CAT[c][0]} <span class="now">até agora</span></span><span class="cd">${CAT[c][1]}</span><span class="go">Ver todas →</span></button>`).join('');
 $('cats').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(b)openCat(b.dataset.c,null)});
 
 /* ---------- crachás ---------- */
 const pct=Math.floor(D.unan/D.nvot*100);
-$('vsub').textContent=`Em ${pct} de cada 100 votações, todos votaram igual. Toque nos números do crachá para ver os detalhes.`;
+$('vsub').textContent=`Até agora, em ${pct} de cada 100 votações todos votaram igual. Toque nos números do crachá para ver os detalhes.`;
 [...new Set(V.map(v=>v.part))].sort((a,b)=>a.localeCompare(b,'pt')).forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=`${p} (${V.filter(v=>v.part===p).length})`;$('partido').appendChild(o)});
 function ring(v){
   const t=v.P+v.A+v.F, C=2*Math.PI*30, seg=(n,col,off)=>n?`<circle cx="38" cy="38" r="30" fill="none" stroke="${col}" stroke-width="9" stroke-dasharray="${n/t*C} ${C}" stroke-dashoffset="${-off/t*C}" transform="rotate(-90 38 38)"/>`:'';
@@ -440,15 +507,15 @@ function badge(v){
   const i=V.indexOf(v), t=v.P+v.A+v.F, h=hue(i);
   return `<article class="badge" style="--tint:hsl(${h} 85% 94%);--deep:hsl(${h} 55% 30%)">
    <div class="bh"><div class="slot" aria-hidden="true"></div>
-     <div class="idr"><div class="pho" aria-hidden="true">${v.in}</div><div><h3>${esc(v.ap)}</h3><p class="civil">${esc(v.nome)}</p></div></div>
+     <div class="idr">${v.foto?`<img class="pho" src="fotos/${v.id}.jpg" alt="Foto de ${esc(v.ap)}" loading="lazy">`:`<div class="pho" aria-hidden="true">${v.in}</div>`}<div><h3>${esc(v.ap)}</h3><p class="civil">${esc(v.nome)}</p></div></div>
      <div class="tags"><span class="pill">${esc(v.part)}</span>${v.mesa?`<span class="pill r">${esc(v.mesa)} da Câmara</span>`:''}${v.ini>'2025-01-01'?`<span class="pill r">No cargo desde ${dt(v.ini.replace(/-/g,''))}</span>`:''}</div></div>
    <div class="bb">
-     <div class="pres">${ring(v)}<p><b class="num">${v.P} de ${t}</b> sessões presente<small class="num">${v.A} ${v.A===1?'ausência justificada':'ausências justificadas'} · <b class="${v.F?'bad':''}">${v.F} ${v.F===1?'falta':'faltas'}</b></small></p></div>
+     <div class="pres">${ring(v)}<p><b class="num">${v.P} de ${t}</b> sessões até agora<small class="num">${v.A} ${v.A===1?'ausência justificada':'ausências justificadas'} · <b class="${v.F?'bad':''}">${v.F} ${v.F===1?'falta':'faltas'}</b></small></p></div>
      <div class="mini num"><div><b>R$ ${nf(D.sal.v)}</b><span>salário por mês</span></div><div><b>${nf(v.votos)}</b><span>votos em 2024</span></div></div>
-     <div><p class="h3">O que propôs</p>
+     <div><p class="h3">O que propôs até agora</p>
        <div class="bar5" aria-hidden="true">${ORDER.map(c=>v.cat[c]?`<i class="k-${c}" style="flex:${v.cat[c]} 1 0"></i>`:'').join('')}</div>
        ${ORDER.map(c=>`<button class="pick k-${c} num" type="button" data-v="${i}" data-c="${c}" ${v.cat[c]?'':'disabled'}><i></i><span>${CAT[c][0]}</span><b>${nf(v.cat[c])}</b><span class="ar" aria-hidden="true">›</span></button>`).join('')}</div>
-     <div><p class="h3">Como votou</p>
+     <div><p class="h3">Como votou até agora</p>
        <div class="vote num"><div><b>${nf(v.vs)}</b><span>vezes sim</span></div><div class="n"><b>${nf(v.vn+v.va)}</b><span>${v.va?'não ou abstenção':'vezes não'}</span></div></div>
        ${v.mesa==='Presidente'?'<p class="mute" style="font-size:13.5px;margin:8px 0 0">O presidente quase nunca vota.</p>':''}
        ${v.naos.length?`<p style="margin:10px 0 0"><button class="lnk" type="button" data-n="${i}">Ver quando não votou sim →</button></p>`:''}</div>
@@ -470,7 +537,7 @@ render();
 
 /* ---------- método ---------- */
 $('m-pres').textContent=`Conta a presença na hora da votação de cada sessão. Foram ${D.sess.length} sessões até ${dt(D.ult.replace(/-/g,''))}. ${D.semreg.length} sessões ficaram de fora porque o sistema não registrou a presença de ninguém nelas.`;
-$('m-sal').innerHTML=`O valor é o mesmo para os 19 e foi fixado pela <a href="${esc(D.sal.u)}">${esc(D.sal.lei)}</a>. É o valor bruto, sem descontos.`;
+$('m-sal').innerHTML=`O valor é o mesmo para os 19 e foi fixado pela <a href="${esc(D.sal.u)}">${esc(D.sal.lei)}</a>. É o valor bruto, sem descontos. O contador do topo é uma estimativa: 19 salários por mês, proporcional ao tempo desde a posse, sem 13º nem outros pagamentos.`;
 $('m-vot').textContent=`Só entram as votações em que o sistema registra o voto de cada um: ${nf(D.nvot)} desde 2025. Em ${nf(D.unan)} delas, todos votaram igual.`;
 $('rod').textContent=`Fonte: sistema legislativo da Câmara Municipal de Hortolândia (sapl.hortolandia.sp.leg.br). Coleta de ${dt(D.ger.replace(/-/g,''))}.`;
 </script>

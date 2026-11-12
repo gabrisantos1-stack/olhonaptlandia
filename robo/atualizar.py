@@ -20,7 +20,8 @@ RESUMO = os.path.join(RAIZ, "site", "resumo.json")
 UA = "Mozilla/5.0 (compatible; RaioXHortolandia/1.0; projeto civico; +https://github.com/gabrisantos1-stack/olhonaptlandia)"
 BASE = "https://sapl.hortolandia.sp.leg.br"
 API = BASE + "/@@vereadores"
-HOJE = datetime.datetime.now(ZoneInfo("America/Sao_Paulo")).date()
+AGORA = datetime.datetime.now(ZoneInfo("America/Sao_Paulo"))
+HOJE = AGORA.date()
 INICIO = "2025-01-01"                      # início da legislatura 2025-2028
 ANOS = list(range(2025, min(HOJE.year, 2028) + 1))
 
@@ -148,6 +149,49 @@ ALIAS = {"jd": "Jardim", "jd.": "Jardim", "pq": "Parque", "pq.": "Parque", "res.
          "chacaras": "Chácaras", "chacara": "Chácara"}
 
 
+# Assunto de cada proposta, pelas palavras do texto oficial (a primeira regra que casar vale).
+ASSUNTOS = [
+    ("luz", r"iluminac|lampada|luminaria|poste|\bled\b"),
+    ("asf", r"tapa[- ]buraco|buraco|asfalt|recape|pavimenta"),
+    ("tra", r"sinalizac|lombada|transito|semaforo|faixa de pedestre|redutor|rotatoria|estacionamento|placa"),
+    ("agu", r"esgoto|vazamento|drenagem|alagamento|enchente|agua|bueiro|boca de lobo|galeria pluvial"),
+    ("lim", r"rocag|limpeza|capina|poda|mato|entulho|cata[- ]bagulho|arvore|descarte"),
+    ("cal", r"calcada|passeio publico|sarjet|meio[- ]fio|guia"),
+    ("laz", r"praca|playground|academia ao ar livre|parque|quadra|campo de futebol|area de lazer"),
+    ("sau", r"\bubs\b|saude|medic|hospital|\bupa\b|dengue|vacina"),
+    ("edu", r"escola|emei|emef|emeb|creche|aluno|educac"),
+    ("seg", r"seguranca|guarda municipal|ronda|camera|policia|monitoramento"),
+    ("bus", r"onibus|transporte publico|transporte coletivo"),
+]
+ASSUNTOS = [(k, re.compile(rx)) for k, rx in ASSUNTOS]
+HOMENAGENS = [("pes", r"pesar"), ("tit", r"titulo|medalha|diploma|honor"), ("nom", r"denomina|da nome"),
+              ("dat", r"institui o dia|institui a semana|dia municipal|semana municipal|calendario|data comemorativa|institui o mes"),
+              ("par", r".")]
+HOMENAGENS = [(k, re.compile(rx)) for k, rx in HOMENAGENS]
+
+
+def assunto(c, texto):
+    e = nm(texto)
+    regras = ASSUNTOS if c in "bc" else HOMENAGENS if c == "h" else []
+    return next((k for k, rx in regras if rx.search(e)), "")
+
+
+RX_RUA = re.compile(rf"\b(Rua|R\.|Avenida|Av\.?|Estrada|Travessa|Alameda|Viela)\s+({W}(?:\s+(?:(?:de|da|do|dos|das|e)\s+)?{W}){{0,5}})")
+TIPO_VIA = {"r.": "Rua", "av": "Avenida", "av.": "Avenida"}
+CORTE_RUA = re.compile(r"\s+(?:Jardim|Jd\.?|Parque|Pq\.?|Vila|Residencial|Loteamento|Bairro|Remanso|Nova|Novo|Chácaras?|Condomínio|Recanto|Núcleo)\b.*$")
+
+
+def rua(texto):
+    """Primeira rua citada no texto, com nome padronizado, ou None."""
+    m = RX_RUA.search(texto)
+    if not m:
+        return None
+    nome = CORTE_RUA.sub("", m.group(2)).strip()
+    if len(nome) < 3 or nome.isdigit():
+        return None
+    return TIPO_VIA.get(m.group(1).lower(), m.group(1)) + " " + nome
+
+
 # ------------------------------------------------------------------ montagem
 def montar():
     lista = json.load(open(os.path.join(CACHE, "lista.json")))
@@ -196,7 +240,9 @@ def montar():
             key = (i["k"], i["id"])
             if key not in itens:
                 d = i["d"].split("/")
-                itens[key] = dict(i=i["id"], t=i["t"], e=i["e"].strip(), d=d[2] + d[1] + d[0], c=grupo(i),
+                c = grupo(i)
+                itens[key] = dict(i=i["id"], t=i["t"], e=i["e"].strip(), d=d[2] + d[1] + d[0], c=c,
+                                  th=assunto(c, i["e"]),
                                   r="" if i["r"] == "Lido em Plenário" else i["r"], a=[],
                                   m=1 if i["k"] == "materia" else 0)
             itens[key]["a"].append(idx[r["base"]["id"]])
@@ -204,6 +250,28 @@ def montar():
     for it in L:
         for a in it["a"]:
             V[a]["cat"][it["c"]] += 1
+
+    # pedidos repetidos: mesma rua + mesmo assunto, pedido várias vezes
+    grupos = collections.defaultdict(list)
+    for n, it in enumerate(L):
+        if it["c"] == "b" and it["th"]:
+            r_ = rua(it["e"])
+            if r_:
+                grupos[(nm(r_), it["th"])].append((n, r_))
+    rep_ = []
+    for (k, th), lst in grupos.items():
+        datas = sorted({L[n]["d"] for n, _ in lst})
+        if len(datas) < 4:
+            continue
+        nome = collections.Counter(r_ for _, r_ in lst).most_common(1)[0][0]
+        b_ = collections.Counter()
+        for n, _ in lst:
+            for mt in RX_BAIRRO.finditer(L[n]["e"]):
+                b_[(ALIAS.get(mt.group(1).lower(), mt.group(1)) + " " + mt.group(2)).strip()] += 1
+        rep_.append(dict(r=nome, b=b_.most_common(1)[0][0] if b_ else "", th=th, n=len(lst),
+                         a=len({a for n, _ in lst for a in L[n]["a"]}), d0=datas[0], d1=datas[-1],
+                         ids=[n for n, _ in lst]))
+    rep_.sort(key=lambda x: (-x["n"], x["r"]))
 
     bc, disp = collections.Counter(), {}
     for it in L:
@@ -215,13 +283,16 @@ def montar():
                 vistos.add(k)
                 bc[k] += 1
                 disp.setdefault(k, collections.Counter())[nome] += 1
-    bairros = [disp[k].most_common(1)[0][0] for k, n in bc.most_common(400) if n >= 8]
+    top = [(disp[k].most_common(1)[0][0], n) for k, n in bc.most_common(400) if n >= 8]
+    bairros, bairros_n = [b for b, _ in top], [n for _, n in top]
 
-    D = dict(ger=hoje, ult=max(meta[s]["d"] for s in valid),
+    for v in V:
+        v["foto"] = 1 if os.path.exists(os.path.join(RAIZ, "site", "fotos", f"{v['id']}.jpg")) else 0
+    D = dict(ger=hoje, gerh=AGORA.isoformat(timespec="minutes"), posse=INICIO, rep=rep_[:300], ult=max(meta[s]["d"] for s in valid),
              sess=[dict(d=meta[s]["d"]) for s in valid], semreg=[dict(d=meta[s]["d"], n=meta[s]["n"]) for s in semreg],
              nvot=len(vot), unan=unan, v=V,
-             items=[[it["i"], it["t"], it["e"], it["d"], it["c"], it["r"], it["a"], it["m"]] for it in L],
-             catot=dict(collections.Counter(it["c"] for it in L)), bairros=bairros, sal=SALARIO)
+             items=[[it["i"], it["t"], it["e"], it["d"], it["c"], it["r"], it["a"], it["m"], it["th"]] for it in L],
+             catot=dict(collections.Counter(it["c"] for it in L)), bairros=bairros, bairrosn=bairros_n, sal=SALARIO)
 
     resumo = dict(data=hoje, vereadores=len(V), propostas=len(L), sessoes=len(valid), votacoes=len(vot),
                   ultima_sessao=D["ult"])
