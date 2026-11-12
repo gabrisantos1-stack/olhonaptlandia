@@ -228,6 +228,8 @@ def montar():
         V.append(dict(id=vid, nome=b["title"], ap=APELIDOS.get(b["title"], b["title"]),
                       part=b["partido_atual"]["sgl"], votos=m["votos"], ini=m["start"],
                       mesa=mesa[0] if mesa else "", P=fr["P"], A=fr["A"], F=fr["F"],
+                      email=(b.get("email") or "").strip(), tel=(b.get("telefone_gabinete") or "").strip(),
+                      whats=re.sub(r"\D", "", b.get("whatsapp_gabinete") or ""),
                       vs=vc["sim"], vn=vc["nao"], va=vc["abstencao"], naos=naos,
                       cat={k: 0 for k in "bchlo"},
                       url=f"{BASE}/consultas/parlamentar/parlamentar_mostrar_proc?cod_parlamentar={vid}"))

@@ -95,6 +95,16 @@ h2{font-family:var(--display);font-weight:800;font-size:clamp(30px,6vw,42px);lin
 .rp .rb{font-size:13.5px;color:var(--mute)}
 .rp .rm{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px;color:var(--mute);margin-top:8px}
 .rp .rm .lab{background:var(--b-t);color:var(--b)}
+.cob{background:var(--paper);border:2px solid var(--ink);border-radius:20px;padding:16px;margin:0 0 16px;display:flex;flex-direction:column;gap:12px}
+.cob h3{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.015em;margin:0;line-height:1.1}
+.cob p{margin:0;font-size:14.5px;color:var(--mute)}
+.cob textarea{font:inherit;font-size:15px;line-height:1.45;width:100%;min-height:150px;border:1px solid var(--hair);border-radius:12px;padding:12px;background:var(--soft);color:var(--ink);resize:vertical}
+.cob .acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:13px 14px;font-weight:700;font-size:15px;text-decoration:none;background:var(--ink);color:#fff;text-align:center}
+.btn.wa{background:#128c4a}.btn.gh{background:var(--soft);color:var(--ink)}
+.btn:hover{filter:brightness(1.12)}
+.cob .ct{font-size:13.5px;color:var(--mute);overflow-wrap:anywhere}
+.cob .ct b{color:var(--ink)}
 .themes{display:flex;flex-direction:column;gap:9px;margin:0;padding:0;list-style:none}
 .themes li{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;font-size:15px}
 .themes .ti{width:30px;height:30px;border-radius:9px;background:var(--b-t);color:var(--b);display:flex;align-items:center;justify-content:center}
@@ -449,10 +459,32 @@ ago(); setInterval(ago,6e4);
 D.rep.forEach(g=>{g.items=g.ids.map(n=>IT[n])});
 const repHTML=g=>`<button class="rp" type="button" data-g="${D.rep.indexOf(g)}"><span class="rn num">${g.n}<small>vezes</small></span>
   <span class="rr">${esc(g.r)}</span><span class="rb">${esc(g.b||'Hortolândia')}</span>
-  <span class="rm"><span class="lab">${esc(THX[g.th][1])}</span><span>${g.a} ${g.a===1?'vereador pediu':'vereadores pediram'}</span><span>·</span><span>de ${mesAno(g.d0)} a ${mesAno(g.d1)}</span></span></button>`;
+  <span class="rm"><span class="lab">${esc(THX[g.th][1])}</span><span>${g.a} ${g.a===1?'vereador pediu':'vereadores pediram'}</span><span>·</span><span>de ${mesAno(g.d0)} a ${mesAno(g.d1)}</span></span><span class="go" style="grid-column:1/-1;color:var(--red);font-weight:700;font-size:14px;margin-top:6px">Ver pedidos e cobrar →</span></button>`;
+const TEMA={luz:'iluminação',asf:'conserto de asfalto',tra:'melhoria no trânsito',agu:'conserto de água e esgoto',lim:'limpeza e poda',cal:'conserto de calçada',laz:'melhoria em praça e área de lazer',sau:'melhoria na saúde',edu:'melhoria em escola',seg:'segurança',bus:'melhoria no ônibus'};
+const SITE=/^https?:/.test(location.protocol)&&!/claude/.test(location.hostname)?location.origin+location.pathname:'https://gabrisantos1-stack.github.io/olhonaptlandia/';
 function openRep(g){
   openSheet('b',THX[g.th][2],g.r,`${THX[g.th][1]} · pedido ${g.n} vezes até agora${g.b?' · '+g.b:''}`);
-  pager($('sh-b'),g.items,true,20);
+  const cnt=new Map(); g.items.forEach(it=>it[6].forEach(a=>cnt.set(a,(cnt.get(a)||0)+1)));
+  const who=[...cnt.entries()].sort((a,b)=>b[1]-a[1]);
+  const msg=a=>`Olá, ${V[a].ap}. Moro em Hortolândia. A Câmara já recebeu ${g.n} pedidos de ${TEMA[g.th]||'melhoria'} na ${g.r}${g.b?', '+g.b:''}, desde ${mesAno(g.d0)}. ${cnt.get(a)===1?'Um deles saiu':cnt.get(a)+' deles saíram'} do seu gabinete, e o problema continua. O que a Prefeitura respondeu? O que ainda dá para fazer?\n\nFonte: ${SITE}`;
+  $('sh-b').innerHTML=`<div class="cob"><h3>Cobre uma resposta</h3>
+    <p>A mensagem já vem pronta. Escolha o vereador, ajuste o texto se quiser e envie.</p>
+    <label class="field" for="cob-v">Para quem
+      <select id="cob-v">${who.map(([a,n])=>`<option value="${a}">${esc(V[a].ap)} (${n} ${n===1?'pedido':'pedidos'} para esta rua)</option>`).join('')}</select></label>
+    <label class="field" for="cob-t">Mensagem
+      <textarea id="cob-t"></textarea></label>
+    <div class="acts" id="cob-a"></div><div class="ct" id="cob-c"></div></div>
+    <p class="h3">Os ${g.n} pedidos, do mais recente ao mais antigo</p><div id="replist"></div>`;
+  const sel=$('cob-v'), ta=$('cob-t');
+  const links=()=>{const v=V[+sel.value], t=encodeURIComponent(ta.value);
+    $('cob-a').innerHTML=(v.whats?`<a class="btn wa" href="https://wa.me/55${v.whats}?text=${t}">WhatsApp do gabinete</a>`:'')
+      +(v.email?`<a class="btn" href="mailto:${esc(v.email)}?subject=${encodeURIComponent(g.r+': o problema continua')}&body=${t}">Enviar por e-mail</a>`:'')
+      +`<a class="btn wa" href="https://wa.me/?text=${t}">Mandar no grupo do bairro</a><button class="btn gh" type="button" id="cob-cp">Copiar mensagem</button>`;
+    $('cob-c').innerHTML=[v.email?`E-mail oficial: <b>${esc(v.email)}</b>`:'',v.tel?`Telefone do gabinete: <b>${esc(v.tel)}</b>`:''].filter(Boolean).join(' · ')+(v.whats?'':'<br>A Câmara não divulga WhatsApp deste gabinete.');
+    $('cob-cp').onclick=async e=>{try{await navigator.clipboard.writeText(ta.value);e.target.textContent='Copiado'}catch(_){ta.focus();ta.select();e.target.textContent='Selecionado: copie com o dedo'}}};
+  const fill=()=>{ta.value=msg(+sel.value);links()};
+  sel.addEventListener('change',fill); ta.addEventListener('input',links); fill();
+  pager($('replist'),g.items,true,20);
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(b)openRep(D.rep[+b.dataset.g])});
 (function(){ let n=0; const host=$('reps'), btn=document.createElement('button'); btn.className='more'; btn.type='button'; btn.style.gridColumn='1/-1';
