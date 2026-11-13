@@ -3,6 +3,7 @@ name: Atualizar o site
 on:
   schedule:
     - cron: "17 8 * * *"   # todo dia às 05:17 de Brasília
+    - cron: "43 17 * * *"  # reforço às 14:43, caso o GitHub pule a rodada da madrugada
   workflow_dispatch:        # permite rodar na mão pelo botão "Run workflow"
   push:
     branches: [main]
