@@ -455,7 +455,7 @@ const GER=new Date(D.gerh);
 function ago(){ const m=Math.max(0,Math.round((Date.now()-GER.getTime())/6e4));
   const q=m<2?'agora mesmo':m<60?`há ${m} minutos`:m<120?'há 1 hora':m<1440?`há ${Math.floor(m/60)} horas`:m<2880?'ontem':`há ${Math.floor(m/1440)} dias`;
   $('livet').textContent=`Ao vivo · dados conferidos ${q}`;
-  $('upd').textContent=`Última conferência na Câmara: ${GER.toLocaleDateString('pt-BR',{day:'numeric',month:'long'})} às ${GER.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}. O robô volta lá todo dia de madrugada.`}
+  $('upd').textContent=`Última conferência na Câmara: ${GER.toLocaleDateString('pt-BR',{day:'numeric',month:'long'})} às ${GER.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}. O robô volta lá duas vezes por dia.`}
 ago(); setInterval(ago,6e4);
 
 /* ---------- pedidos repetidos ---------- */
